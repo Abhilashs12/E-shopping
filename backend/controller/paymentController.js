@@ -49,4 +49,32 @@ const getSinglePayment = async (req, res) => {
     });
   }
 };
-export { createPayment, getUserPayments, getSinglePayment };
+const updatePaymentStatus = async (req, res) => {
+  try {
+    const payment = await Payment.findByIdAndUpdate(
+      req.params.id,
+      {
+        paymentStatus: req.body.paymentStatus,
+      },
+      {
+        new: true,
+      },
+    );
+    if (!payment) {
+      return res.status(404).json({
+        message: "Payment not found",
+      });
+    }
+    res.status(200).json(payment);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+export {
+  createPayment,
+  getUserPayments,
+  getSinglePayment,
+  updatePaymentStatus,
+};
