@@ -12,4 +12,5 @@ router.post("/", createPayment);
 
 router.get("/", getUserPayments);
 
+router.get("/:id", getSinglePayment);
 export default router;
