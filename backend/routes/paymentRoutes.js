@@ -19,4 +19,5 @@ router.get("/:id", getSinglePayment);
 router.put("/:id", updatePaymentStatus);
 
 router.delete("/:id", deletePayment);
+
 export default router;
