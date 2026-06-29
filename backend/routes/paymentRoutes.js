@@ -3,6 +3,7 @@ import express from "express";
 import {
   createPayment,
   getUserPayments,
+  getSinglePayment,
 } from "../controller/paymentController.js";
 
 const router = express.Router();
