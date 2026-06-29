@@ -16,4 +16,16 @@ const createPayment = async (req, res) => {
     });
   }
 };
-export {createPayment};
+const getUserPayments = async (req, res) => {
+  try {
+    const payments = await Payment.find({
+      user: req.user.id,
+    }).populate("order");
+    res.status(200).json(payments);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+export { createPayment, getUserPayments };
