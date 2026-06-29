@@ -95,4 +95,5 @@ export {
   getUserPayments,
   getSinglePayment,
   updatePaymentStatus,
+  deletePayment,
 };
