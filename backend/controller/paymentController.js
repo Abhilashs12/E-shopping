@@ -1,14 +1,16 @@
 import Payment from "../models/Payment.js";
 
-const createPayment = async (req, res) => {
+export const createPayment = async (req, res) => {
   try {
-    const { order, amount, paymentMethod } = req.body;
+    const { user, order, amount, paymentMethod } = req.body;
+
     const payment = await Payment.create({
-      user: req.user.id,
+      user,
       order,
       amount,
-      payment,
+      paymentMethod,
     });
+
     res.status(201).json(payment);
   } catch (error) {
     res.status(500).json({
@@ -16,11 +18,11 @@ const createPayment = async (req, res) => {
     });
   }
 };
+
 const getUserPayments = async (req, res) => {
   try {
-    const payments = await Payment.find({
-      user: req.user.id,
-    }).populate("order");
+    const payments = await Payment.find().populate("user").populate("order");
+
     res.status(200).json(payments);
   } catch (error) {
     res.status(500).json({
