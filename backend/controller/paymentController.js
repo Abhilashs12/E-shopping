@@ -16,3 +16,4 @@ const createPayment = async (req, res) => {
     });
   }
 };
+export {createPayment};

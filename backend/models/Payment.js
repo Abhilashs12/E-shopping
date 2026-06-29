@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 const paymentSchema = new mongoose.Schema(
   {
     user: {
@@ -6,20 +7,24 @@ const paymentSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+
     order: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Order",
       required: true,
     },
+
     amount: {
-      ref: Number,
+      type: Number,
       required: true,
     },
+
     paymentMethod: {
       type: String,
       enum: ["Card", "UPI", "Net Banking", "Cash On Delivery"],
       required: true,
     },
+
     paymentStatus: {
       type: String,
       enum: ["Pending", "Success", "Failed", "Refunded"],
