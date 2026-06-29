@@ -7,6 +7,7 @@ import authRoutes from "./routes/authRoutes.js";
 import cartRoutes from "./routes/cartRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
+import addressRoutes from "./routes/addressRoutes.js";
 const app = express();
 
 app.use(cors());
@@ -19,4 +20,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/payments", paymentRoutes);
+app.use("/api/address", addressRoutes);
+
+
+
+
+
 export default app;
