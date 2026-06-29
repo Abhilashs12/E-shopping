@@ -30,4 +30,23 @@ const getUserPayments = async (req, res) => {
     });
   }
 };
-export { createPayment, getUserPayments };
+const getSinglePayment = async (req, res) => {
+  try {
+    const payment = await Payment.findById(req.params.id)
+      .populate("user")
+      .populate("order");
+
+    if (!payment) {
+      return res.status(404).json({
+        message: "Payment Not Found",
+      });
+    }
+
+    res.status(200).json(payment);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+export { createPayment, getUserPayments, getSinglePayment };
