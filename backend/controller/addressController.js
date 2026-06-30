@@ -42,4 +42,22 @@ const getAllAddresses = async (req, res) => {
     });
   }
 };
-export { createAddress, getAllAddresses };
+const getSingleAddress = async (req, res) => {
+  try {
+    const address = await Address.findById(req.params.id).populate(
+      "user",
+      "name email",
+    );
+    if (!address) {
+      return res.status(404).json({
+        message: "Address Not Found",
+      });
+    }
+    res.status(200).json(address);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+export { createAddress, getAllAddresses, getSingleAddress };
