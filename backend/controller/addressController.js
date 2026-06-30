@@ -60,4 +60,21 @@ const getSingleAddress = async (req, res) => {
     });
   }
 };
-export { createAddress, getAllAddresses, getSingleAddress };
+const updateAddress = async (req, res) => {
+  try {
+    const address = await Address.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    if (!address) {
+      return res.status(404).json({
+        message: "Address not found",
+      });
+    }
+    res.status(200).json(address);
+  } catch (error) {
+    res.status(200).json({
+      message: error.message,
+    });
+  }
+};
+export { createAddress, getAllAddresses, getSingleAddress, updateAddress };
