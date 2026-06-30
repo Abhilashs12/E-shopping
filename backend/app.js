@@ -8,6 +8,7 @@ import cartRoutes from "./routes/cartRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
 import addressRoutes from "./routes/addressRoutes.js";
+import wishlistRoutes from "./routes/wishlistRoutes.js";
 const app = express();
 
 app.use(cors());
@@ -21,9 +22,6 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/address", addressRoutes);
-
-
-
-
+app.use("/api/wishlist", wishlistRoutes);
 
 export default app;
