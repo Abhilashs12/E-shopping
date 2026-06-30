@@ -94,10 +94,40 @@ const deleteAddress = async (req, res) => {
     });
   }
 };
+const setDefaultAddress = async (req, res) => {
+  try {
+    await Address.updateMany(
+      {},
+      {
+        isDefault: false,
+      },
+    );
+    const address = await Address.findByIdAndUpdate(
+      req.params.id,
+      {
+        isDefault: true,
+      },
+      {
+        new: true,
+      },
+    );
+    if (!address) {
+      return res.status(404).json({
+        message: "Address not found",
+      });
+    }
+    res.status(200).json(address);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
 export {
   createAddress,
   getAllAddresses,
   getSingleAddress,
   updateAddress,
   deleteAddress,
+  setDefaultAddress,
 };
