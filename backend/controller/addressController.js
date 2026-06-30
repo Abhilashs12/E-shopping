@@ -77,4 +77,27 @@ const updateAddress = async (req, res) => {
     });
   }
 };
-export { createAddress, getAllAddresses, getSingleAddress, updateAddress };
+const deleteAddress = async (req, res) => {
+  try {
+    const address = await Address.findByIdAndDelete(req.params.id);
+    if (!address) {
+      return res.status(404).json({
+        message: "Address Not found",
+      });
+    }
+    res.status(200).json({
+      message: "Address deleted successfully",
+    });
+  } catch (error) {
+    res.status(200).json({
+      message: error.message,
+    });
+  }
+};
+export {
+  createAddress,
+  getAllAddresses,
+  getSingleAddress,
+  updateAddress,
+  deleteAddress,
+};
