@@ -45,5 +45,23 @@ const getWishlist = async (req, res) => {
     });
   }
 };
+const removeFromWishlist = async (req, res) => {
+  try {
+    const wishlist = await Wishlist.findByIdAndDelete(req.params.id);
 
-export { addToWishlist, getWishlist };
+    if (!wishlist) {
+      return res.status(404).json({
+        message: "Wishlist Item Not Found",
+      });
+    }
+
+    res.status(200).json({
+      message: "Product removed from wishlist",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+export { addToWishlist, getWishlist, removeFromWishlist };
