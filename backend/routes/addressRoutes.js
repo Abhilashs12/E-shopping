@@ -14,10 +14,8 @@ router.post("/", createAddress);
 
 router.get("/", getAllAddresses);
 
-// Put the specific route first
 router.put("/:id/default", setDefaultAddress);
 
-// Then generic routes
 router.get("/:id", getSingleAddress);
 
 router.put("/:id", updateAddress);
