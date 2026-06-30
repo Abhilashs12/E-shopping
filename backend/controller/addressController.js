@@ -31,5 +31,15 @@ const createAddress = async (req, res) => {
     });
   }
 };
+const getAllAddresses = async (req, res) => {
+  try {
+    const addresses = await Address.find().populate("user", "name email");
 
-export { createAddress };
+    res.status(200).json(addresses);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+export { createAddress, getAllAddresses };
