@@ -64,4 +64,21 @@ const removeFromWishlist = async (req, res) => {
     });
   }
 };
-export { addToWishlist, getWishlist, removeFromWishlist };
+const clearWishlist = async (req, res) => {
+  try {
+    const { user } = req.query;
+
+    await Wishlist.deleteMany({
+      user,
+    });
+
+    res.status(200).json({
+      message: "Wishlist cleared successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+export { addToWishlist, getWishlist, removeFromWishlist, clearWishlist };
