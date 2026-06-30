@@ -14,4 +14,7 @@ router.post("/", createAddress);
 router.get("/", getAllAddresses);
 
 router.get("/:id", getSingleAddress);
+
+router.put("/:id", updateAddress);
+
 export default router;
