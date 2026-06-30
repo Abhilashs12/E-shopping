@@ -1,0 +1,33 @@
+import Review from "../models/Review.js";
+
+const addReview = async (req, res) => {
+  try {
+    const { user, product, rating, comment } = req.body;
+
+    const existingReview = await Review.findOne({
+      user,
+      product,
+    });
+
+    if (existingReview) {
+      return res.status(400).json({
+        message: "You have already reviewed this product",
+      });
+    }
+
+    const review = await Review.create({
+      user,
+      product,
+      rating,
+      comment,
+    });
+
+    res.status(201).json(review);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+export { addReview };
