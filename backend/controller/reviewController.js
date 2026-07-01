@@ -69,4 +69,21 @@ const updateReview = async (req, res) => {
     });
   }
 };
-export { addReview, getProductReviews, updateReview };
+const deleteReview = async (req, res) => {
+  try {
+    const review = await Review.findByIdAndDelete(req.params.id);
+    if (!review) {
+      return res.status(404).json({
+        message: "Review not found",
+      });
+    }
+    res.status(200).json({
+      message: "Review deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+export { addReview, getProductReviews, updateReview, deleteReview };
