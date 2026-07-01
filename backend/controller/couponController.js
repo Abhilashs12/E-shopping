@@ -39,4 +39,19 @@ const getAllCoupons = async (req, res) => {
     });
   }
 };
-export { createCoupon, getAllCoupons };
+const getSingleCoupon = async (req, res) => {
+  try {
+    const coupon = await Coupon.findById(req.params.id);
+    if (!coupon) {
+      return res.status(404).json({
+        message: "Coupon Not found",
+      });
+    }
+    res.status(200).json(coupon);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+export { createCoupon, getAllCoupons, getSingleCoupon };
