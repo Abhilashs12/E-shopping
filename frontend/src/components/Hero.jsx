@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import hero from "../assets/images/hero.jpg";
 
 function Hero() {
   return (
@@ -42,7 +41,6 @@ function Hero() {
         {/* Right Image */}
         <div className="flex-1">
           <img
-            src={hero}
             alt="Hero"
             className="w-full h-[500px] object-cover rounded-2xl shadow-xl"
           />

@@ -7,7 +7,7 @@ import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Checkout from "./pages/Checkout";
-import Orders from "./pages/Orders";
+import Orders from "./pages/Order";
 import NotFound from "./pages/NotFound";
 import Footer from "./components/Footer";
 function App() {
