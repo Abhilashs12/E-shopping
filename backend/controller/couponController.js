@@ -54,4 +54,35 @@ const getSingleCoupon = async (req, res) => {
     });
   }
 };
-export { createCoupon, getAllCoupons, getSingleCoupon };
+const updateCoupon = async (req, res) => {
+  try {
+    const { code, discount, minOrderAmount, expiryDate, isActive } = req.body;
+
+    const coupon = await Coupon.findByIdAndUpdate(
+      req.params.id,
+      {
+        code: code.toUpperCase(),
+        discount,
+        minOrderAmount,
+        expiryDate,
+        isActive,
+      },
+      {
+        new: true,
+      },
+    );
+
+    if (!coupon) {
+      return res.status(404).json({
+        message: "Coupon Not Found",
+      });
+    }
+
+    res.status(200).json(coupon);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+export { createCoupon, getAllCoupons, getSingleCoupon, updateCoupon };
