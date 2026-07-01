@@ -44,4 +44,29 @@ const getProductReviews = async (req, res) => {
     });
   }
 };
-export { addReview, getProductReviews };
+const updateReview = async (req, res) => {
+  try {
+    const { rating, comment } = req.body;
+    const review = await Review.findByIdAndUpdate(
+      req.params.id,
+      {
+        rating,
+        comment,
+      },
+      {
+        new: true,
+      },
+    );
+    if (!review) {
+      return res.status(404).json({
+        message: "Review not found",
+      });
+    }
+    res.status(200).json(review);
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+export { addReview, getProductReviews, updateReview };

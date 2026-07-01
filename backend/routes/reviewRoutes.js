@@ -11,4 +11,5 @@ router.post("/", addReview);
 
 router.get("/:productId", getProductReviews);
 
+router.put("/:id", updateReview);
 export default router;
