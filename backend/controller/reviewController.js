@@ -29,5 +29,19 @@ const addReview = async (req, res) => {
     });
   }
 };
+const getProductReviews = async (req, res) => {
+  try {
+    const reviews = await Review.find({
+      product: req.params.productId,
+    })
+      .populate("user", "name email")
+      .populate("product", "title price");
 
-export { addReview };
+    res.status(200).json(reviews);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+export { addReview, getProductReviews };
