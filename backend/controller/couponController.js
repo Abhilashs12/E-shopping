@@ -29,5 +29,14 @@ const createCoupon = async (req, res) => {
     });
   }
 };
-
-export { createCoupon };
+const getAllCoupons = async (req, res) => {
+  try {
+    const coupon = await Coupon.find();
+    res.status(200).json(coupons);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+export { createCoupon, getAllCoupons };
