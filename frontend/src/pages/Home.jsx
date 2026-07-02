@@ -1,3 +1,4 @@
+//import Hero from "../components/Hero";
 import Categories from "../components/Categories";
 import FeaturedProducts from "../components/FeaturedProducts";
 import OfferBanner from "../components/OfferBanner";
@@ -7,6 +8,8 @@ import Newsletter from "../components/Newsletter";
 function Home() {
   return (
     <main>
+
+      
       {/* Categories */}
       <Categories />
 
