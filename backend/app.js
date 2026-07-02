@@ -11,6 +11,7 @@ import addressRoutes from "./routes/addressRoutes.js";
 import wishlistRoutes from "./routes/wishlistRoutes.js";
 import reviewRoutes from "./routes/reviewRoutes.js";
 import couponRoutes from "./routes/couponRoutes.js";
+import dashboardRoutes from "./routes/dashboardRoutes.js";
 
 const app = express();
 
@@ -28,5 +29,6 @@ app.use("/api/address", addressRoutes);
 app.use("/api/wishlist", wishlistRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/coupons", couponRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 export default app;
