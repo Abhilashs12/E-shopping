@@ -1,4 +1,4 @@
-import CategoryCard from "./CategoriesCard";
+import CategoryCard from "./CategoryCard";
 
 const categories = [
   {
