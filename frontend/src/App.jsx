@@ -7,13 +7,16 @@ import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Checkout from "./pages/Checkout";
-
+import Orders from "./pages/Orders";
 import NotFound from "./pages/NotFound";
 import Footer from "./components/Footer";
+import TopBar from "./components/TopBar";
+
 function App() {
   return (
     <BrowserRouter>
       <div className="min-h-screen flex flex-col">
+        <TopBar />
         <Navbar />
 
         <main className="flex-1">
@@ -25,7 +28,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/checkout" element={<Checkout />} />
-
+            <Route path="/orders" element={<Orders />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
