@@ -98,17 +98,29 @@ const getUserOrders = async (req, res) => {
 };
 const updateOrderStatus = async (req, res) => {
   try {
-    const order = await Order.findByIdAndUpdate(
-      req.params.id,
-      {
-        status: req.body.status,
-      },
-      {
-        new: true,
-      },
-    );
+    const order = await Order.findById(req.params.id);
 
-    res.status(200).json(order);
+    if (!order) {
+      return res.status(404).json({
+        message: "Order not found",
+      });
+    }
+
+    if (req.body.status === "Cancelled" && order.status !== "Cancelled") {
+      for (const item of order.orderItems) {
+        await Product.findByIdAndUpdate(item.product, {
+          $inc: {
+            stock: item.quantity,
+          },
+        });
+      }
+    }
+
+    order.status = req.body.status;
+
+    const updatedOrder = await order.save();
+
+    res.status(200).json(updatedOrder);
   } catch (error) {
     res.status(500).json({
       message: error.message,
