@@ -11,18 +11,26 @@ function Navbar() {
         </Link>
 
         {/* Search Bar */}
-        <div className="hidden md:flex items-center w-1/2 border rounded-lg overflow-hidden">
+        {/* Search */}
+        <div className="hidden lg:flex w-[520px] h-12 rounded-xl overflow-hidden border border-gray-300">
+          <select className="bg-gray-100 px-4 outline-none border-r text-sm">
+            <option>All Categories</option>
+            <option>Fashion</option>
+            <option>Electronics</option>
+            <option>Shoes</option>
+            <option>Accessories</option>
+          </select>
+
           <input
             type="text"
-            placeholder="Search products..."
-            className="w-full px-4 py-2 outline-none"
+            placeholder="Search for products..."
+            className="flex-1 px-4 outline-none"
           />
 
-          <button className="bg-blue-600 text-white px-4 py-3">
+          <button className="bg-blue-600 text-white w-14 hover:bg-blue-700 transition">
             <FaSearch />
           </button>
         </div>
-
         {/* Menu */}
         <div className="flex items-center gap-6">
           <Link to="/" className="hover:text-blue-600 font-medium">

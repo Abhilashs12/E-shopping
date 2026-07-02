@@ -1,20 +1,85 @@
-function ProductCard({ image, name, price, rating }) {
+import { FaHeart, FaShoppingCart, FaStar } from "react-icons/fa";
+import { Link } from "react-router-dom";
+
+function ProductCard({
+  _id,
+  title,
+  category,
+  image,
+  price,
+  rating,
+  stock,
+  discount,
+}) {
+  const originalPrice = discount
+    ? Math.round(price / (1 - discount / 100))
+    : price;
+
   return (
-    <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden">
+    <div className="group bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden">
       {/* Product Image */}
-      <img src={image} alt={name} className="w-full h-56 object-cover" />
+      <div className="relative overflow-hidden">
+        <img
+          src={image}
+          alt={title}
+          className="w-full h-64 object-cover group-hover:scale-105 transition duration-500"
+        />
 
-      {/* Product Details */}
-      <div className="p-4">
-        <h2 className="text-lg font-semibold">{name}</h2>
+        {discount > 0 && (
+          <span className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+            {discount}% OFF
+          </span>
+        )}
 
-        <p className="text-yellow-500 mt-2">⭐ {rating}</p>
-
-        <p className="text-2xl font-bold text-blue-600 mt-2">₹{price}</p>
-
-        <button className="w-full mt-4 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
-          Add to Cart
+        <button className="absolute top-4 right-4 bg-white w-10 h-10 rounded-full shadow flex items-center justify-center hover:bg-red-500 hover:text-white transition">
+          <FaHeart />
         </button>
+      </div>
+
+      {/* Content */}
+
+      <div className="p-5">
+        <p className="text-blue-600 text-sm font-medium">{category}</p>
+
+        <h2 className="text-xl font-bold mt-2 line-clamp-1">{title}</h2>
+
+        <div className="flex items-center gap-2 mt-3">
+          <FaStar className="text-yellow-400" />
+
+          <span className="font-medium">{rating}</span>
+        </div>
+
+        <div className="flex items-center gap-3 mt-4">
+          <span className="text-2xl font-bold text-blue-600">₹{price}</span>
+
+          {discount > 0 && (
+            <span className="line-through text-gray-400">₹{originalPrice}</span>
+          )}
+        </div>
+
+        <p className="mt-3 text-sm">
+          {stock > 0 ? (
+            <span className="text-green-600 font-medium">
+              In Stock ({stock})
+            </span>
+          ) : (
+            <span className="text-red-500 font-medium">Out of Stock</span>
+          )}
+        </p>
+
+        <div className="flex gap-3 mt-6">
+          <Link
+            to={`/products/${_id}`}
+            className="flex-1 text-center border border-blue-600 text-blue-600 py-3 rounded-xl hover:bg-blue-600 hover:text-white transition"
+          >
+            View
+          </Link>
+
+          <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl flex items-center justify-center gap-2 transition">
+            <FaShoppingCart />
+            Cart
+          </button>
+        </div>
       </div>
     </div>
   );
