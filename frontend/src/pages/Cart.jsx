@@ -1,25 +1,14 @@
 import { FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 function Cart() {
-  const cartItems = [
-    {
-      id: 1,
-      title: "Nike Air Max Shoes",
-      image:
-        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500",
-      price: 4999,
-      quantity: 1,
-    },
-    {
-      id: 2,
-      title: "Smart Watch",
-      image:
-        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500",
-      price: 2999,
-      quantity: 1,
-    },
-  ];
+  const {
+    cartItems,
+    removeFromCart,
+    increaseQty,
+    decreaseQty,
+  } = useCart();
 
   const subtotal = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
@@ -27,12 +16,32 @@ function Cart() {
   );
 
   const shipping = 0;
-  const tax = 300;
-  const total = subtotal + tax;
+  const tax = cartItems.length > 0 ? 300 : 0;
+  const total = subtotal + shipping + tax;
+
+  if (cartItems.length === 0) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center">
+        <h1 className="text-4xl font-bold mb-4">
+          Your Cart is Empty
+        </h1>
+
+        <p className="text-gray-500 mb-8">
+          Add some products to continue shopping.
+        </p>
+
+        <Link
+          to="/products"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl"
+        >
+          Continue Shopping
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-gray-50 min-h-screen py-14">
-
       <div className="max-w-7xl mx-auto px-6">
 
         <h1 className="text-4xl font-bold mb-10">
@@ -42,21 +51,30 @@ function Cart() {
         <div className="grid lg:grid-cols-3 gap-10">
 
           {/* Cart Items */}
-
           <div className="lg:col-span-2 space-y-6">
 
             {cartItems.map((item) => (
               <div
-                key={item.id}
+                key={item._id}
                 className="bg-white rounded-2xl shadow p-5 flex items-center gap-6"
               >
 
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-28 h-28 object-cover rounded-xl"
-                />
+                {/* Product Image */}
+                {item.image ? (
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-28 h-28 object-cover rounded-xl"
+                  />
+                ) : (
+                  <div className="w-28 h-28 bg-gray-200 rounded-xl flex items-center justify-center">
+                    <span className="text-gray-500 text-sm">
+                      No Image
+                    </span>
+                  </div>
+                )}
 
+                {/* Product Details */}
                 <div className="flex-1">
 
                   <h2 className="text-xl font-semibold">
@@ -69,13 +87,19 @@ function Cart() {
 
                   <div className="flex items-center gap-3 mt-4">
 
-                    <button className="w-9 h-9 bg-gray-200 rounded-full">
+                    <button
+                      onClick={() => decreaseQty(item._id)}
+                      className="w-9 h-9 bg-gray-200 rounded-full"
+                    >
                       -
                     </button>
 
                     <span>{item.quantity}</span>
 
-                    <button className="w-9 h-9 bg-gray-200 rounded-full">
+                    <button
+                      onClick={() => increaseQty(item._id)}
+                      className="w-9 h-9 bg-gray-200 rounded-full"
+                    >
                       +
                     </button>
 
@@ -83,7 +107,11 @@ function Cart() {
 
                 </div>
 
-                <button className="text-red-500 text-xl hover:text-red-700">
+                {/* Remove */}
+                <button
+                  onClick={() => removeFromCart(item._id)}
+                  className="text-red-500 text-xl hover:text-red-700"
+                >
                   <FaTrash />
                 </button>
 
@@ -93,7 +121,6 @@ function Cart() {
           </div>
 
           {/* Summary */}
-
           <div className="bg-white rounded-2xl shadow p-8 h-fit">
 
             <h2 className="text-2xl font-bold mb-6">
@@ -107,7 +134,9 @@ function Cart() {
 
             <div className="flex justify-between mb-4">
               <span>Shipping</span>
-              <span className="text-green-600">Free</span>
+              <span className="text-green-600">
+                Free
+              </span>
             </div>
 
             <div className="flex justify-between mb-4">
@@ -134,7 +163,6 @@ function Cart() {
         </div>
 
       </div>
-
     </div>
   );
 }

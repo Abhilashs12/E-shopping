@@ -2,9 +2,11 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { loginUser } from "../services/authService";
+import { useAuth } from "../context/AuthContext";
 
 function Login() {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -30,8 +32,8 @@ function Login() {
 
       const data = await loginUser(formData);
 
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      // Save user and token using AuthContext
+      login(data.user, data.token);
 
       alert("Login Successful");
 
@@ -47,13 +49,10 @@ function Login() {
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center px-5">
-
       <div className="bg-white shadow-xl rounded-3xl overflow-hidden max-w-5xl w-full grid md:grid-cols-2">
 
         {/* Left Side */}
-
         <div className="hidden md:flex bg-gradient-to-br from-blue-600 to-indigo-700 text-white flex-col justify-center items-center p-10">
-
           <h1 className="text-5xl font-bold">
             Welcome Back
           </h1>
@@ -61,13 +60,10 @@ function Login() {
           <p className="mt-5 text-center text-lg">
             Login to continue shopping with ShopEase.
           </p>
-
         </div>
 
         {/* Right Side */}
-
         <div className="p-10">
-
           <h2 className="text-3xl font-bold">
             Login
           </h2>
@@ -80,7 +76,6 @@ function Login() {
             className="mt-8 space-y-5"
             onSubmit={handleSubmit}
           >
-
             <input
               type="email"
               name="email"
@@ -92,7 +87,6 @@ function Login() {
             />
 
             <div className="relative">
-
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
@@ -116,19 +110,18 @@ function Login() {
                   <FaEye />
                 )}
               </button>
-
             </div>
 
             <button
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-semibold transition"
+              type="submit"
+              disabled={loading}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-semibold transition disabled:bg-blue-400"
             >
               {loading ? "Logging in..." : "Login"}
             </button>
-
           </form>
 
           <p className="text-center mt-6">
-
             Don't have an account?
 
             <Link
@@ -137,13 +130,11 @@ function Login() {
             >
               Register
             </Link>
-
           </p>
 
         </div>
 
       </div>
-
     </div>
   );
 }
