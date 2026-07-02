@@ -5,7 +5,7 @@ function ProductCard({
   _id,
   title,
   category,
-  image,
+ // image,
   price,
   rating,
   stock,
@@ -19,11 +19,11 @@ function ProductCard({
     <div className="group bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden">
       {/* Product Image */}
       <div className="relative overflow-hidden">
-        <img
-          src={image}
-          alt={title}
-          className="w-full h-64 object-cover group-hover:scale-105 transition duration-500"
-        />
+        <div className="w-full h-64 bg-gray-200 flex items-center justify-center">
+  <span className="text-gray-500 text-lg font-medium">
+    Product Image
+  </span>
+</div>
 
         {discount > 0 && (
           <span className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
