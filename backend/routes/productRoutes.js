@@ -10,10 +10,11 @@ import {
   searchProducts,
 } from "../controller/productController.js";
 import protect from "../middleware/authMiddleware.js";
+import upload from "../middleware/uploadMiddleware.js";
 
 const router = express.Router();
 
-router.post("/", createProduct);
+router.post("/", upload.single("image"), createProduct);
 router.get("/", getProducts);
 router.get("/search/product", searchProducts);
 router.get("/category/:category", getProductByCategory);
