@@ -18,13 +18,8 @@ function ProductCard({
     : price;
 
   const handleAddToCart = () => {
-  console.log("Product ID:", _id);
-  console.log("Product:", {
-    _id,
-    title,
-    category,
-    price,
-  });
+  console.log("ID:", _id);
+  console.log("TITLE:", title);
 
   addToCart({
     _id,
@@ -35,9 +30,9 @@ function ProductCard({
     stock,
     discount,
   });
-
-  alert(`${title} added to cart`);
 };
+
+  
 
   return (
     <div className="group bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden">

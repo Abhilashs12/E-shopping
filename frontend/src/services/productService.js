@@ -4,7 +4,8 @@ const API_URL = "http://localhost:5000/api/products";
 
 export const getProducts = async () => {
   const response = await axios.get(API_URL);
-  return response.data;
+
+  return response.data.products; // ✅ return only the array
 };
 
 export const getProductById = async (id) => {
@@ -14,13 +15,12 @@ export const getProductById = async (id) => {
 
 export const getProductsByCategory = async (category) => {
   const response = await axios.get(`${API_URL}/category/${category}`);
-
   return response.data;
 };
 
 export const searchProducts = async (keyword) => {
   const response = await axios.get(
-    `${API_URL}/search/product?keyword=${keyword}`,
+    `${API_URL}/search/product?keyword=${keyword}`
   );
 
   return response.data;
