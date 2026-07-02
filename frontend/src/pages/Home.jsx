@@ -1,12 +1,24 @@
-import Hero from "../components/Hero";
 import Categories from "../components/Categories";
-
+import FeaturedProducts from "../components/FeaturedProducts";
+import OfferBanner from "../components/OfferBanner";
+import WhyChooseUs from "../components/WhyChooseUs";
+import NewArrivals from "../components/NewArrivals";
+import Newsletter from "../components/Newsletter";
 function Home() {
   return (
-    <>
-      <Hero />
+    <main>
+      {/* Categories */}
       <Categories />
-    </>
+
+      {/* Featured Products */}
+      <FeaturedProducts />
+
+      {/* Offer Banner */}
+      <OfferBanner />
+      <WhyChooseUs />
+      <NewArrivals />
+      <Newsletter />
+    </main>
   );
 }
 
