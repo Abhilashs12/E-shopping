@@ -1,5 +1,7 @@
 import Order from "../models/Order.js";
 import Coupon from "../models/Coupon.js";
+import Product from "../models/Product.js";
+
 const createOrder = async (req, res) => {
   try {
     const { user, orderItems, shippingAddress, totalPrice, couponCode } =
@@ -42,7 +44,21 @@ const createOrder = async (req, res) => {
       finalAmount = totalPrice - discount;
       appliedCoupon = coupon.code;
     }
+    for (const item of orderItems) {
+      const product = await Product.findById(item.product);
 
+      if (!product) {
+        return res.status(404).json({
+          message: "Product not found",
+        });
+      }
+
+      if (product.stock < item.quantity) {
+        return res.status(400).json({
+          message: `${product.title} has only ${product.stock} items in stock`,
+        });
+      }
+    }
     const order = await Order.create({
       user,
       orderItems,
@@ -52,6 +68,13 @@ const createOrder = async (req, res) => {
       discount,
       finalAmount,
     });
+    for (const item of orderItems) {
+      await Product.findByIdAndUpdate(item.product, {
+        $inc: {
+          stock: -item.quantity,
+        },
+      });
+    }
 
     res.status(201).json(order);
   } catch (error) {
