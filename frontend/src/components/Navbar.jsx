@@ -1,27 +1,36 @@
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
   FaShoppingCart,
   FaUser,
   FaSearch,
   FaBars,
   FaTimes,
+  FaChevronDown,
 } from "react-icons/fa";
+import { useAuth } from "../context/AuthContext";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    setDropdownOpen(false);
+    navigate("/");
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200">
-
       <div className="max-w-7xl mx-auto px-6">
 
         {/* Top Row */}
-
         <div className="flex items-center justify-between h-20">
 
           {/* Logo */}
-
           <Link
             to="/"
             className="text-3xl font-extrabold text-blue-600 tracking-wide"
@@ -29,10 +38,8 @@ function Navbar() {
             ShopEase
           </Link>
 
-          {/* Desktop Search */}
-
+          {/* Search */}
           <div className="hidden lg:flex flex-1 mx-12">
-
             <div className="w-full flex items-center bg-gray-100 rounded-full overflow-hidden">
 
               <FaSearch className="ml-5 text-gray-500" />
@@ -43,16 +50,14 @@ function Navbar() {
                 className="flex-1 bg-transparent px-4 py-4 outline-none"
               />
 
-              <button className="bg-blue-600 hover:bg-blue-700 transition text-white px-8 py-4 font-medium">
+              <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4">
                 Search
               </button>
 
             </div>
-
           </div>
 
-          {/* Right Icons */}
-
+          {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-6">
 
             <NavLink
@@ -60,7 +65,7 @@ function Navbar() {
               className={({ isActive }) =>
                 isActive
                   ? "text-blue-600 font-semibold"
-                  : "hover:text-blue-600 transition"
+                  : "hover:text-blue-600"
               }
             >
               Home
@@ -71,7 +76,7 @@ function Navbar() {
               className={({ isActive }) =>
                 isActive
                   ? "text-blue-600 font-semibold"
-                  : "hover:text-blue-600 transition"
+                  : "hover:text-blue-600"
               }
             >
               Products
@@ -79,7 +84,7 @@ function Navbar() {
 
             <Link
               to="/cart"
-              className="relative hover:text-blue-600 transition text-2xl"
+              className="relative text-2xl hover:text-blue-600"
             >
               <FaShoppingCart />
 
@@ -89,17 +94,61 @@ function Navbar() {
 
             </Link>
 
-            <Link
-              to="/login"
-              className="hover:text-blue-600 transition text-2xl"
-            >
-              <FaUser />
-            </Link>
+            {/* User Section */}
+            {!user ? (
+              <Link
+                to="/login"
+                className="text-2xl hover:text-blue-600"
+              >
+                <FaUser />
+              </Link>
+            ) : (
+              <div className="relative">
+
+                <button
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className="flex items-center gap-2 font-medium hover:text-blue-600"
+                >
+                  <FaUser />
+                  Hi, {user.name}
+                  <FaChevronDown className="text-sm" />
+                </button>
+
+                {dropdownOpen && (
+                  <div className="absolute right-0 mt-3 w-52 bg-white rounded-xl shadow-xl border">
+
+                    <Link
+                      to="/profile"
+                      onClick={() => setDropdownOpen(false)}
+                      className="block px-5 py-3 hover:bg-gray-100"
+                    >
+                      My Profile
+                    </Link>
+
+                    <Link
+                      to="/orders"
+                      onClick={() => setDropdownOpen(false)}
+                      className="block px-5 py-3 hover:bg-gray-100"
+                    >
+                      My Orders
+                    </Link>
+
+                    <button
+                      onClick={handleLogout}
+                      className="w-full text-left px-5 py-3 hover:bg-red-50 text-red-600"
+                    >
+                      Logout
+                    </button>
+
+                  </div>
+                )}
+
+              </div>
+            )}
 
           </div>
 
-          {/* Mobile Button */}
-
+          {/* Mobile Menu Button */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="md:hidden text-2xl"
@@ -108,58 +157,57 @@ function Navbar() {
           </button>
 
         </div>
-                {/* Mobile Menu */}
 
+        {/* Mobile Menu */}
         {menuOpen && (
-          <div className="md:hidden border-t border-gray-200 py-5">
-
-            {/* Mobile Search */}
+          <div className="md:hidden border-t py-5">
 
             <div className="flex items-center bg-gray-100 rounded-full overflow-hidden mb-6">
-
               <FaSearch className="ml-4 text-gray-500" />
 
               <input
                 type="text"
-                placeholder="Search products..."
+                placeholder="Search..."
                 className="flex-1 bg-transparent px-4 py-3 outline-none"
               />
-
             </div>
 
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-4">
 
-              <NavLink
-                to="/"
-                onClick={() => setMenuOpen(false)}
-                className="hover:text-blue-600 font-medium"
-              >
+              <NavLink to="/" onClick={() => setMenuOpen(false)}>
                 Home
               </NavLink>
 
-              <NavLink
-                to="/products"
-                onClick={() => setMenuOpen(false)}
-                className="hover:text-blue-600 font-medium"
-              >
+              <NavLink to="/products" onClick={() => setMenuOpen(false)}>
                 Products
               </NavLink>
 
-              <NavLink
-                to="/cart"
-                onClick={() => setMenuOpen(false)}
-                className="hover:text-blue-600 font-medium"
-              >
+              <NavLink to="/cart" onClick={() => setMenuOpen(false)}>
                 Cart
               </NavLink>
 
-              <NavLink
-                to="/login"
-                onClick={() => setMenuOpen(false)}
-                className="hover:text-blue-600 font-medium"
-              >
-                Login
-              </NavLink>
+              {!user ? (
+                <NavLink to="/login" onClick={() => setMenuOpen(false)}>
+                  Login
+                </NavLink>
+              ) : (
+                <>
+                  <NavLink to="/profile" onClick={() => setMenuOpen(false)}>
+                    My Profile
+                  </NavLink>
+
+                  <NavLink to="/orders" onClick={() => setMenuOpen(false)}>
+                    My Orders
+                  </NavLink>
+
+                  <button
+                    onClick={handleLogout}
+                    className="text-left text-red-600"
+                  >
+                    Logout
+                  </button>
+                </>
+              )}
 
             </div>
 
@@ -167,7 +215,6 @@ function Navbar() {
         )}
 
       </div>
-
     </header>
   );
 }

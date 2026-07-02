@@ -15,7 +15,13 @@ function Products() {
 
   const fetchProducts = async () => {
     try {
-      const data = await getProducts();
+    const data = await getProducts();
+
+console.log("API Response:", data);
+console.log("First Product:", data[0]);
+
+setProducts(data);
+setFilteredProducts(data);
       setProducts(data);
       setFilteredProducts(data);
     } catch (error) {
