@@ -29,9 +29,11 @@ const createCoupon = async (req, res) => {
     });
   }
 };
+
 const getAllCoupons = async (req, res) => {
   try {
-    const coupon = await Coupon.find();
+    const coupons = await Coupon.find();
+
     res.status(200).json(coupons);
   } catch (error) {
     res.status(500).json({
@@ -39,14 +41,17 @@ const getAllCoupons = async (req, res) => {
     });
   }
 };
+
 const getSingleCoupon = async (req, res) => {
   try {
     const coupon = await Coupon.findById(req.params.id);
+
     if (!coupon) {
       return res.status(404).json({
-        message: "Coupon Not found",
+        message: "Coupon Not Found",
       });
     }
+
     res.status(200).json(coupon);
   } catch (error) {
     res.status(500).json({
@@ -54,6 +59,7 @@ const getSingleCoupon = async (req, res) => {
     });
   }
 };
+
 const updateCoupon = async (req, res) => {
   try {
     const { code, discount, minOrderAmount, expiryDate, isActive } = req.body;
@@ -85,4 +91,81 @@ const updateCoupon = async (req, res) => {
     });
   }
 };
-export { createCoupon, getAllCoupons, getSingleCoupon, updateCoupon };
+
+const deleteCoupon = async (req, res) => {
+  try {
+    const coupon = await Coupon.findByIdAndDelete(req.params.id);
+
+    if (!coupon) {
+      return res.status(404).json({
+        message: "Coupon Not Found",
+      });
+    }
+
+    res.status(200).json({
+      message: "Coupon Deleted Successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+const applyCoupon = async (req, res) => {
+  try {
+    const { code, orderAmount } = req.body;
+
+    const coupon = await Coupon.findOne({
+      code: code.toUpperCase(),
+    });
+
+    if (!coupon) {
+      return res.status(404).json({
+        message: "Invalid Coupon",
+      });
+    }
+
+    if (!coupon.isActive) {
+      return res.status(400).json({
+        message: "Coupon is inactive",
+      });
+    }
+
+    if (coupon.expiryDate < new Date()) {
+      return res.status(400).json({
+        message: "Coupon has expired",
+      });
+    }
+
+    if (orderAmount < coupon.minOrderAmount) {
+      return res.status(400).json({
+        message: `Minimum order amount should be ₹${coupon.minOrderAmount}`,
+      });
+    }
+
+    const discountAmount = (orderAmount * coupon.discount) / 100;
+
+    const finalAmount = orderAmount - discountAmount;
+
+    res.status(200).json({
+      coupon: coupon.code,
+      discountPercentage: coupon.discount,
+      discountAmount,
+      finalAmount,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+export {
+  createCoupon,
+  getAllCoupons,
+  getSingleCoupon,
+  updateCoupon,
+  deleteCoupon,
+  applyCoupon,
+};
