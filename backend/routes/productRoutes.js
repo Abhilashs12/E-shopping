@@ -9,17 +9,24 @@ import {
   getProductByCategory,
   searchProducts,
 } from "../controller/productController.js";
+
 import protect from "../middleware/authMiddleware.js";
+import admin from "../middleware/adminMiddleware.js";
 import upload from "../middleware/uploadMiddleware.js";
 
 const router = express.Router();
 
-router.post("/", upload.single("image"), createProduct);
+// Public Routes
 router.get("/", getProducts);
 router.get("/search/product", searchProducts);
 router.get("/category/:category", getProductByCategory);
 router.get("/:id", getSingleProduct);
-router.put("/:id", updateProduct);
-router.delete("/:id", deleteProduct);
+
+// Admin Routes
+router.post("/", protect, admin, upload.single("image"), createProduct);
+
+router.put("/:id", protect, admin, updateProduct);
+
+router.delete("/:id", protect, admin, deleteProduct);
 
 export default router;
