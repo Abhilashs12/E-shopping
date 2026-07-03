@@ -95,15 +95,17 @@ function FeaturedProducts() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {products.map((product) => (
-            <ProductCard
-              key={product.id}
-              title={product.title}
-              category={product.category}
-              image={product.image}
-              price={product.price}
-              oldPrice={product.oldPrice}
-              rating={product.rating}
-            />
+           <ProductCard
+    key={product.id}
+    _id={product.id}
+    title={product.title}
+    category={product.category}
+    image={product.image}
+    price={product.price}
+    rating={product.rating}
+    stock={20}
+    discount={20}
+/>
           ))}
         </div>
       </div>

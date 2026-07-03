@@ -1,4 +1,8 @@
-import { FaHeart, FaShoppingCart, FaStar } from "react-icons/fa";
+import {
+  FaHeart,
+  FaShoppingBag,
+  FaStar,
+} from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
@@ -6,6 +10,7 @@ function ProductCard({
   _id,
   title,
   category,
+  image,
   price,
   rating,
   stock,
@@ -18,99 +23,127 @@ function ProductCard({
     : price;
 
   const handleAddToCart = () => {
-  console.log("ID:", _id);
-  console.log("TITLE:", title);
-
-  addToCart({
-    _id,
-    title,
-    category,
-    price,
-    rating,
-    stock,
-    discount,
-  });
-};
-
-  
+    addToCart({
+      _id,
+      title,
+      image,
+      price,
+      rating,
+      stock,
+      category,
+      discount,
+    });
+  };
 
   return (
-    <div className="group bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden">
+    <div className="group bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition duration-500">
 
-      {/* Product Image */}
-      <div className="relative overflow-hidden">
-        <div className="w-full h-64 bg-gray-200 flex items-center justify-center">
-          <span className="text-gray-500 text-lg font-medium">
-            Product Image
-          </span>
-        </div>
+      {/* Image */}
+
+      <div className="relative overflow-hidden bg-[#F8F5F2]">
+
+        <img
+          src={image}
+          alt={title}
+          className="h-72 w-full object-cover group-hover:scale-110 transition duration-700"
+        />
 
         {discount > 0 && (
-          <span className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+          <span className="absolute top-4 left-4 bg-[#5C4033] text-white text-sm px-3 py-1 rounded-full">
             {discount}% OFF
           </span>
         )}
 
-        <button className="absolute top-4 right-4 bg-white w-10 h-10 rounded-full shadow flex items-center justify-center hover:bg-red-500 hover:text-white transition">
-          <FaHeart />
+        <button className="absolute top-4 right-4 bg-white w-10 h-10 rounded-full shadow hover:bg-[#5C4033] hover:text-white transition">
+
+          <FaHeart className="mx-auto mt-3" />
+
         </button>
+
       </div>
 
-      {/* Product Details */}
-      <div className="p-5">
+      {/* Content */}
 
-        <p className="text-blue-600 text-sm font-medium">
+      <div className="p-6">
+
+        <p className="text-[#C49A6C] font-medium text-sm uppercase">
+
           {category}
+
         </p>
 
-        <h2 className="text-xl font-bold mt-2 line-clamp-1">
+        <h2 className="mt-2 text-xl font-bold text-[#2B2B2B] line-clamp-1">
+
           {title}
+
         </h2>
 
         <div className="flex items-center gap-2 mt-3">
-          <FaStar className="text-yellow-400" />
-          <span className="font-medium">{rating}</span>
+
+          <FaStar className="text-yellow-500" />
+
+          <span>{rating}</span>
+
         </div>
 
         <div className="flex items-center gap-3 mt-4">
-          <span className="text-2xl font-bold text-blue-600">
+
+          <span className="text-2xl font-bold text-[#5C4033]">
+
             ₹{price}
+
           </span>
 
           {discount > 0 && (
+
             <span className="line-through text-gray-400">
+
               ₹{originalPrice}
+
             </span>
+
           )}
+
         </div>
 
-        <p className="mt-3 text-sm">
+        <p className="mt-4">
+
           {stock > 0 ? (
-            <span className="text-green-600 font-medium">
+
+            <span className="text-green-600">
+
               In Stock ({stock})
+
             </span>
+
           ) : (
-            <span className="text-red-500 font-medium">
+
+            <span className="text-red-500">
+
               Out of Stock
+
             </span>
+
           )}
+
         </p>
 
         <div className="flex gap-3 mt-6">
 
           <Link
             to={`/products/${_id}`}
-            className="flex-1 text-center border border-blue-600 text-blue-600 py-3 rounded-xl hover:bg-blue-600 hover:text-white transition"
+            className="flex-1 border border-[#5C4033] text-[#5C4033] text-center py-3 rounded-xl hover:bg-[#5C4033] hover:text-white transition"
           >
             View
           </Link>
 
           <button
             onClick={handleAddToCart}
-            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl flex items-center justify-center gap-2 transition"
+            className="flex-1 bg-[#5C4033] hover:bg-[#7B5E57] text-white rounded-xl py-3 flex items-center justify-center gap-2 transition"
           >
-            <FaShoppingCart />
-            Add to Cart
+            <FaShoppingBag />
+
+            Add
           </button>
 
         </div>
