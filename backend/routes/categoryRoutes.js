@@ -13,11 +13,11 @@ import admin from "../middleware/adminMiddleware.js";
 
 const router = express.Router();
 
-// Public Routes
+
 router.get("/", getCategories);
 router.get("/:id", getSingleCategory);
 
-// Admin Routes
+
 router.post("/", protect, admin, createCategory);
 router.put("/:id", protect, admin, updateCategory);
 router.delete("/:id", protect, admin, deleteCategory);
